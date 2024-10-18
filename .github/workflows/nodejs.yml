@@ -1,0 +1,26 @@
+name: Node.js CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20'  # Specify the version of Node.js you are using
+
+      - run: npm install  # Install project dependencies
+      - run: npm test -- --coverage  # Run tests and generate coverage report
+      - name: Upload Coverage Report
+        uses: actions/upload-artifact@v2
+        with:
+          name: coverage-report
+          path: coverage  # Upload coverage report to GitHub
